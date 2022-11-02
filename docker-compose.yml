@@ -1,0 +1,30 @@
+version: "2.2"
+services:
+  pygw:
+    image: intersystemsdc/pexprocess:latest
+    build:
+      context: py
+      dockerfile: Dockerfile
+      args:
+        IRIS_IMAGE: ${IRIS_IMAGE}
+    restart: always
+    environment: 
+      - PYTHON_GATEWAY
+    ports:
+      - ${PYTHON_GATEWAY}:${PYTHON_GATEWAY}
+    volumes:
+      - ./py/:/irisrun/repo
+
+  iris:
+    image: intersystemsdc/pexdemo:latest
+    command: --check-caps false
+    build:
+      context: iris
+      dockerfile: Dockerfile
+      args:
+        IRIS_IMAGE: ${IRIS_IMAGE}
+    ports:
+      - 52774:52773
+      - 1973:1972
+    volumes:
+      - ./iris/:/irisrun/repo
