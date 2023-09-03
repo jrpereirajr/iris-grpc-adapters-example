@@ -1,0 +1,13 @@
+    // Unexpire passwords to simplify dev mode. Comment these two lines for Production use
+    ZN "%SYS"
+    Do ##class(Security.Users).UnExpireUserPasswords("*")
+
+    // Enabling callin for Embedded Python
+    Do ##class(Security.Services).Get("%Service_CallIn",.prop)
+    Set prop("Enabled")=1
+    Set prop("AutheEnabled")=48
+    Do ##class(Security.Services).Modify("%Service_CallIn",.prop)
+
+    // load all the code of the project as a ZPM package
+    //zpm "load /home/irisowner/irisdev/ -v":1:1
+    HALT
